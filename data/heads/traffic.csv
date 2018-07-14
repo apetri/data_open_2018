@@ -1,0 +1,11 @@
+year,month,day,airline_id,origin_airport,destination_airport,scheduled_departure,actual_departure,taxi_out,wheels_off,wheels_on,taxi_in,scheduled_arrival,actual_arrival,cancelled,diverted,scheduled_elapsed,actual_elapsed,distance,airline_delay,weather_delay,air_system_delay,security_delay,aircraft_delay
+2017,1,17,AA,CLT,PHX,1619,1616,17,1633,1837,5,1856,1842,0,0,277,266,1773,,,,,
+2017,1,18,AA,CLT,PHX,1619,1614,13,1627,1815,6,1856,1821,0,0,277,247,1773,,,,,
+2017,1,19,AA,CLT,PHX,1619,1611,17,1628,1824,2,1856,1826,0,0,277,255,1773,,,,,
+2017,1,20,AA,CLT,PHX,1619,1656,18,1714,1926,3,1856,1929,0,0,277,273,1773,33,0,0,0,0
+2017,1,21,AA,CLT,PHX,1619,1632,17,1649,1854,4,1856,1858,0,0,277,266,1773,,,,,
+2017,1,22,AA,CLT,PHX,1619,1636,27,1703,1917,4,1856,1921,0,0,277,285,1773,0,0,8,0,17
+2017,1,23,AA,CLT,PHX,1619,1616,20,1636,1900,7,1856,1907,0,0,277,291,1773,,,,,
+2017,1,24,AA,CLT,PHX,1619,1619,18,1637,1858,6,1856,1904,0,0,277,285,1773,,,,,
+2017,1,25,AA,CLT,PHX,1619,1616,23,1639,1901,5,1856,1906,0,0,277,290,1773,,,,,
+2017,1,26,AA,CLT,PHX,1619,1618,11,1629,1857,5,1856,1902,0,0,277,284,1773,,,,,
