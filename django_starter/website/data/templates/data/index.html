@@ -1,0 +1,9 @@
+{% if top_flowers %}
+    <ul>
+    {% for flower in top_flowers %}
+        <li><a href="{% url 'detail' flower.id %}">{{ flower }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No flowers are available.</p>
+{% endif %}
