@@ -11,6 +11,10 @@ numpy = "*"
 scipy = "*"
 matplotlib = "*"
 pandas = "*"
+seaborn = "*"
+sklearn = "*"
+django = "*"
+djongo = "*"
 
 
 [dev-packages]
