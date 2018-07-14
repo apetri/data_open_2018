@@ -17,6 +17,7 @@ def getColNames(fname):
 airport_cols = 'city,state,latitude,longitude'.split(",")
 traffic_cols = 'year,month,day,airline_id,origin_airport,destination_airport,distance,scheduled_departure,actual_departure,scheduled_arrival,actual_arrival,airline_delay,air_system_delay,security_delay,aircraft_delay'.split(",")
 weather_cols = 'elevation,temperature,visibility,wind_direction,wind_direction,wind_speed,snow_depth'.split(",")
+events_cols = 'event_date,city,state'.split(",")
 
 ###########
 #Load data#
@@ -38,7 +39,7 @@ def loadTraffic(fname,nrows,names):
 	df["total_delay"] = df[['airline_delay','air_system_delay','security_delay','aircraft_delay']].sum(1)
 	
 	#Done
-	return df
+	return df.sort_values("date")
 
 def loadWeather(fname):
 	
@@ -89,10 +90,20 @@ def joinTraffic(traffic,airports,weather,events):
 	wm = weather.rename(ren,axis=1)
 	traffic = pd.merge(traffic,wm[["date"]+list(ren.values())],on=["date","destination_airport"])
 
+	#Sort events
+	events = events.sort_values(["event_date","city","state"])
+
 	#Attach closest event to origin
+	ren = { c:"origin_"+c for c in events_cols }
+	em = events.rename(ren,axis=1)
+	traffic = pd.merge_asof(traffic.sort_values(["date","origin_city","origin_state"]),em[list(ren.values())],left_on="date",right_on="origin_event_date",by=["origin_city","origin_state"],direction="nearest")
+	traffic["origin_closest_event_days"] = (traffic.origin_event_date - traffic.date).dt.days
 
 	#Attach closest event to destination
-
+	ren = { c:"destination_"+c for c in events_cols }
+	em = events.rename(ren,axis=1)
+	traffic = pd.merge_asof(traffic.sort_values(["date","destination_city","destination_state"]),em[list(ren.values())],left_on="date",right_on="destination_event_date",by=["destination_city","destination_state"],direction="nearest")
+	traffic["destination_closest_event_days"] = (traffic.destination_event_date - traffic.date).dt.days
 
 	#Done
 	return traffic
