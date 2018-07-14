@@ -64,6 +64,7 @@ def loadEvents(fname):
 #Joins#
 #######
 
+#Join in airport info, weather, events
 def joinTraffic(traffic,airports,weather,events):
 
 	#Attach origin info
@@ -107,4 +108,38 @@ def joinTraffic(traffic,airports,weather,events):
 
 	#Done
 	return traffic
+
+#Join in flight density
+def joinFlightDensity(traffic,fd):
+
+	#Attach origin info
+	fd_origin = fd.rename({"airport_id":"origin_airport","total":"origin_total_flights"},axis=1)
+	traffic = pd.merge(traffic,fd_origin[["date","origin_airport","origin_total_flights"]],on=["date","origin_airport"])
+
+	#Attach destination info
+	fd_destination = fd.rename({"airport_id":"destination_airport","total":"destination_total_flights"},axis=1)
+	traffic = pd.merge(traffic,fd_destination[["date","destination_airport","destination_total_flights"]],on=["date","destination_airport"])
+
+	return traffic
+
+
+######################
+#Qualitative analysis#
+######################
+
+#Flight density
+def flightDensity(trf):
+	
+	leave = trf.rename({"origin_airport":"airport_id"},axis=1).groupby(["date","airport_id"]).airline_id.count()
+	leave.name = "depart"
+
+	arrive = trf.rename({"destination_airport":"airport_id"},axis=1).groupby(["date","airport_id"]).airline_id.count()
+	arrive.name = "arrive"
+
+	leave_arrive = pd.merge(leave.reset_index(),arrive.reset_index(),on=["date","airport_id"])
+	leave_arrive["total"] = leave_arrive.depart + leave_arrive.arrive
+
+	return leave_arrive
+
+
 
